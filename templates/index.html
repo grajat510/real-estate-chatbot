@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input id="user-input" type="text" placeholder="Ask a question..." autocomplete="off">
+        <button id="send-btn">Send</button>
+    </div>
+
+    <script>
+        document.getElementById("send-btn").addEventListener("click", async function() {
+            let userInput = document.getElementById("user-input").value;
+            if (userInput) {
+                let chatBox = document.getElementById("chat-box");
+                chatBox.innerHTML += "<div class='user-message'>You: " + userInput + "</div>";
+
+                // Fetch the response from the backend
+                let response = await fetch('/get', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'msg=' + encodeURIComponent(userInput)
+                });
+
+                let botResponse = await response.text();
+                chatBox.innerHTML += "<div class='bot-message'>Chatbot: " + botResponse + "</div>";
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                document.getElementById("user-input").value = '';  // Clear the input field
+            }
+        });
+    </script>
+</body>
+</html>
