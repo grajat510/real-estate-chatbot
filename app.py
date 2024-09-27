@@ -6,6 +6,7 @@ import time
 import logging
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import os
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG)
@@ -150,4 +151,6 @@ def chatbot_response():
     return f"{relevant_data}\n\nChatbot: {bot_response}"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use the PORT environment variable for cloud deployment (Render, Heroku, etc.)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
