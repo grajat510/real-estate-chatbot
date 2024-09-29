@@ -143,6 +143,7 @@ def chatbot_response():
 
     relevant_data = find_relevant_data(user_input, listing_type)
 
+    # Check if relevant data is found
     if "No listing available" in relevant_data and "No building available" in relevant_data and "No amenities found" in relevant_data:
         bot_response = gpt_chat(user_input)
     else:
